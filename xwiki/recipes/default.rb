@@ -52,3 +52,11 @@ template "/var/lib/tomcat6/webapps/xwiki/WEB-INF/hibernate.cfg.xml" do
   mode "0644"
 end
 
+if node["xwiki"]["setup_proxy"]
+  require_recipe 'apache2::mod_proxy_ajp'
+  web_app "xwiki" do
+    template "xwiki.proxy.erb"
+    path "xwiki"
+  end
+end
+

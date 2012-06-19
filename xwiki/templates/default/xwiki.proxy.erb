@@ -1,0 +1,5 @@
+ProxyPass /<%= @params[:path] %> ajp://localhost:8009/<%= @params[:path] %>
+<Proxy *>
+  Order allow,deny
+  Allow from all
+</Proxy>
