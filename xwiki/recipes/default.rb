@@ -10,7 +10,9 @@
 require_recipe 'tomcat'
 require_recipe 'zip'
 
-cookbook_file "/tmp/xwiki-enterprise-web-3.4.war"
+warFile="xwiki-enterprise-web-3.5.1.war"
+
+cookbook_file "/tmp/#{warFile}"
 
 directory "/var/lib/tomcat6/webapps/xwiki" do
   owner "tomcat6"
@@ -32,9 +34,8 @@ directory node['xwiki']['data_path'] do
   recursive true
 end
 
-
 execute "extract" do
-  command "unzip /tmp/xwiki-enterprise-web-3.4.war"
+  command "unzip /tmp/#{warFile}"
   creates "/var/lib/tomcat6/webapps/xwiki/WEB-INF"
   cwd "/var/lib/tomcat6/webapps/xwiki"
 end
