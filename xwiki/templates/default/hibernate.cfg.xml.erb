@@ -55,6 +55,7 @@
          Comment out this section and uncomment other sections below if you want to use another database.
          Note that the database tables will be created automatically if they don't already exist.
     -->
+  <% if node["xwiki"]["db_type"]=="hsqldb" then %>
     <property name="connection.url">jdbc:hsqldb:file:<%= node["xwiki"]["database_path"]  %>/xwiki_db;shutdown=true</property>
     <property name="connection.username">sa</property>
     <property name="connection.password"></property>
@@ -66,12 +67,15 @@
     <mapping resource="xwiki.hbm.xml"/>
     <mapping resource="feeds.hbm.xml"/>
     <mapping resource="activitystream.hbm.xml"/>
-    
+  <% end %>
+
     <!-- MySQL configuration.
          Uncomment if you want to use MySQL and comment out other database configurations.
-    <property name="connection.url">jdbc:mysql://localhost/xwiki?useServerPrepStmts=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</property>
-    <property name="connection.username">xwiki</property>
-    <property name="connection.password">xwiki</property>
+    -->
+  <% if node["xwiki"]["db_type"]=="mysql" then %>
+    <property name="connection.url">jdbc:mysql://<%= node["xwiki"]["db_host"] %>/<%= node["xwiki"]["db_name"] %>?useServerPrepStmts=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</property>
+    <property name="connection.username"><%= node["xwiki"]["db_user"] %></property>
+    <property name="connection.password"><%= node["xwiki"]["db_password"] %></property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
     <property name="connection.provider_class">com.xpn.xwiki.store.DBCPConnectionProvider</property>
@@ -80,7 +84,7 @@
     <mapping resource="xwiki.hbm.xml"/>
     <mapping resource="feeds.hbm.xml"/>
     <mapping resource="activitystream.hbm.xml"/>
-    -->
+  <% end %>
 
     <!-- HSQLDB configuration.
          Uncomment if you want to use HSQLDB and comment out other database configurations.
@@ -112,7 +116,7 @@
     <property name="connection.pool_size">2</property>
     <property name="statement_cache.size">2</property>
     <property name="jdbc.use_streams_for_binary">false</property>
-    <mapping resource="xwiki.hbm.xml"/>
+    <mapping resource="xwiki.postgresql.hbm.xml"/>
     <mapping resource="feeds.hbm.xml"/>
     <mapping resource="activitystream.hbm.xml"/>
     -->
