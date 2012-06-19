@@ -15,21 +15,21 @@ warFile="xwiki-enterprise-web-3.5.1.war"
 cookbook_file "/tmp/#{warFile}"
 
 directory "/var/lib/tomcat6/webapps/xwiki" do
-  owner "tomcat6"
-  group "tomcat6"
+  owner node["tomcat"]["user"]
+  group node["tomcat"]["group"]
   action :create
 end
 
 directory node['xwiki']['database_path'] do
-  owner "tomcat6"
-  group "tomcat6"
+  owner node["tomcat"]["user"]
+  group node["tomcat"]["group"]
   action :create
   recursive true
 end
 
 directory node['xwiki']['data_path'] do
-  owner "tomcat6"
-  group "tomcat6"
+  owner node["tomcat"]["user"]
+  group node["tomcat"]["group"]
   action :create
   recursive true
 end
@@ -41,15 +41,15 @@ execute "extract" do
 end
 
 cookbook_file "/var/lib/tomcat6/webapps/xwiki/WEB-INF/lib/hsqldb.jar" do
-  owner "tomcat6"
-  group "tomcat6"
+  owner node["tomcat"]["user"]
+  group node["tomcat"]["group"]
   mode "0644"
 end
 
 template "/var/lib/tomcat6/webapps/xwiki/WEB-INF/hibernate.cfg.xml" do
   source "hibernate.cfg.xml.erb"
-  owner "tomcat6"
-  group "tomcat6"
+  owner node["tomcat"]["user"]
+  group node["tomcat"]["group"]
   mode "0644"
 end
 
